@@ -1,5 +1,7 @@
 package com.springboot.articleapp.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,9 +14,15 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 
+import com.springboot.articleapp.dateaudit.DateAudit;
+
 @Entity
 @Table(name = "articles")
-public class Article {
+public class Article extends DateAudit {
+	
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long articleId;
@@ -45,7 +53,8 @@ public class Article {
 	
 	
 	public Article() {
-
+		this.setCreatedAt(new Date());
+		this.setUpdatedAt(new Date());
 	}
 
 	public Article(String title, String category, String author, String description, String content) {
@@ -55,6 +64,9 @@ public class Article {
 		this.author = author;
 		this.description = description;
 		this.content = content;
+		
+		this.setCreatedAt(new Date());
+		this.setUpdatedAt(new Date());
 	}
 
 	public long getArticleId() {
